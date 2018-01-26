@@ -176,15 +176,19 @@ Barrels.prototype.populate = function(collections, done, autoAssociations) {
           }
 
           // Insert
-          Model.create(item).exec(function(err, model) {
-            if (err)
-              return nextItem(err);
+          // Model.create(item).exec(function(err, model) {
+          //   if (err)
+          //     return nextItem(err);
 
-            // Primary key mapping
+          //   // Primary key mapping
+          //   that.idMap[modelName][itemIndex] = model[Model.primaryKey];
+
+          //   nextItem();
+          // });
+          Model.create(item).then((model) => {
             that.idMap[modelName][itemIndex] = model[Model.primaryKey];
-
             nextItem();
-          });
+          }).catch(nextItem);
         }, nextModel);
       });
     } else {
